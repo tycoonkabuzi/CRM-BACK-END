@@ -1,9 +1,8 @@
 import express from "express";
-<<<<<<< HEAD
+
 import actionRoute from "./routes/actionsRoute";
 import customerRoute from "./routes/customerRoute";
-=======
->>>>>>> f45c4940ded80fad8e2f382053cc71cde62d51bc
+
 import cors from "cors";
 const app = express();
 
