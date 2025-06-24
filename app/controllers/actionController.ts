@@ -23,11 +23,9 @@ const actionController = {
       res.status(400).json({ err: error });
     }
   },
-  getActionsSingleCustomer: async (req: Request, res: Response) => {
+  getAction: async (req: Request, res: Response) => {
     try {
-      const actionsSingleCustomer = await Action.find({
-        customer: req.params.id,
-      });
+      const actionsSingleCustomer = await Action.findById(req.params.id);
       res.status(200).json(actionsSingleCustomer);
     } catch (error) {
       res.status(400).json({ error: error });
