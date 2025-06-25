@@ -4,8 +4,20 @@ import Customer from "../models/customerModel";
 const customerController = {
   index: async (req: Request, res: Response) => {
     try {
-      const aCustomer = await Customer.find({});
-      res.status(201).json(aCustomer);
+      const page = parseInt(req.query.page as string, 10) || 1;
+      const limit = parseInt(req.query.limit as string, 10) || 10;
+      const startIndex = (page - 1) * limit;
+      const total = await Customer.countDocuments();
+
+      const products = await Customer.find().skip(startIndex).limit(limit);
+
+      res.json({
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit),
+        data: products,
+      });
     } catch (error) {}
   },
   addCustomer: async (req: Request, res: Response) => {
