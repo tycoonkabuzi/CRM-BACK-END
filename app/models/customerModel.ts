@@ -4,6 +4,7 @@ const CustomerSchema = new mongoose.Schema({
   name: String,
   address: { street: String, number: String, postCode: String },
   taxId: String,
+  profilePicture: String,
   actions: [{ type: mongoose.Types.ObjectId, ref: "Action" }],
 });
 

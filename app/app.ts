@@ -2,7 +2,7 @@ import express from "express";
 
 import actionRoute from "./routes/actionsRoute";
 import customerRoute from "./routes/customerRoute";
-
+import path from "path";
 import cors from "cors";
 const app = express();
 
@@ -16,6 +16,11 @@ mongoose;
 app.use(cors());
 app.use("/customers", customerRoute);
 app.use("/actions", actionRoute);
+
+app.use(
+  "/uploadProfile",
+  express.static(path.join(process.cwd(), "../uploads"))
+);
 app.listen(PORT, () => {
   console.log("The server started");
 });

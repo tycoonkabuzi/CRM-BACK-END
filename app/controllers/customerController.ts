@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import Customer from "../models/customerModel";
 
+import fs from "fs";
+import path from "path";
+
 const customerController = {
   index: async (req: Request, res: Response) => {
     try {
@@ -18,12 +21,32 @@ const customerController = {
         pages: Math.ceil(total / limit),
         data: products,
       });
-    } catch (error) {}
+    } catch (error) {
+      res.status(500).json({ err: error });
+    }
+  },
+
+  getAllCustomers: async (_req: Request, res: Response) => {
+    try {
+      const all = await Customer.find();
+      res.json(all);
+    } catch (error) {
+      res.status(500).json({ err: error });
+    }
   },
   addCustomer: async (req: Request, res: Response) => {
     try {
-      const newCustomer = new Customer(req.body);
-      newCustomer.save();
+      const { name, taxId, address } = req.body;
+
+      const file = (req as any).file;
+      const profilePicture = file ? file.filename : "image.jpg";
+      const newCustomer = new Customer({
+        name,
+        taxId,
+        address,
+        profilePicture,
+      });
+      await newCustomer.save();
       res.status(200).json(newCustomer);
     } catch (error) {
       res.status(500).json({ err: error });
